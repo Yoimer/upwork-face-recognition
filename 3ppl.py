@@ -21,9 +21,11 @@ output = np.empty((240, 320, 3), dtype=np.uint8)
 print("Loading known face image(s)")
 rob_image = face_recognition.load_image_file("rob.jpg")
 peter_image = face_recognition.load_image_file("peter.jpg")
+john_image = face_recognition.load_image_file("john.jpg")
 
 rob_face_encoding = face_recognition.face_encodings(rob_image)[0]
 peter_face_encoding = face_recognition.face_encodings(peter_image)[0]
+john_face_encoding = face_recognition.face_encodings(john_image)[0]
 
 # Initialize some variables
 face_locations = []
@@ -43,7 +45,7 @@ while True:
     for face_encoding in face_encodings:
     
         # See if the face is a match for the known face(s)
-        match = face_recognition.compare_faces([rob_face_encoding],[peter_image], face_encoding)
+        match = face_recognition.compare_faces([rob_face_encoding],[peter_image],[john_image], face_encoding)
         #results = face_recognition.compare_faces([biden_encoding], unknown_encoding)
         name = "<Unknown Person>"
 
@@ -51,5 +53,7 @@ while True:
             name = "Roberto"
         elif match[1]:
             name = "Peter"
+        elif match[2]:
+            name = "John"
 
         print("I see someone named {}!".format(name))
